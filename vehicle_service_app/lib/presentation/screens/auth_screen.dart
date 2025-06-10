@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:vehicle_service_app/presentation/screens/home_screen.dart';
 
 class AuthScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -15,7 +16,7 @@ class AuthScreen extends StatelessWidget {
       box.write('user_name', name);
       box.write('user_phone', phone);
       Get.snackbar('Success', 'User data saved locally');
-      // Navigate to Home Screen here later
+      Get.offAll(() => HomeScreen());
     } else {
       Get.snackbar('Error', 'Please enter all fields');
     }
