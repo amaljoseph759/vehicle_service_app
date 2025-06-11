@@ -78,7 +78,7 @@ class _VehicleListScreenState extends State<VehicleListScreen> {
               Navigator.pop(context);
               _deleteVehicle(id);
             },
-            child: Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text('Delete ', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
