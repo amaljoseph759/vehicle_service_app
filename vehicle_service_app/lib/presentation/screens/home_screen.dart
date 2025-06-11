@@ -1,7 +1,10 @@
 // home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vehicle_service_app/presentation/screens/add_vehicle_screen.dart';
+import 'package:vehicle_service_app/presentation/screens/book_service.dart';
+import 'package:vehicle_service_app/presentation/screens/service_history.dart';
+import 'package:vehicle_service_app/presentation/screens/vehicle_list_screen.dart';
+import 'package:vehicle_service_app/presentation/widgets/home_container.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -15,36 +18,24 @@ class HomeScreen extends StatelessWidget {
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
           children: [
-            _buildTile(Icons.directions_car, 'My Vehicles', () {
-              Get.to(() => AddVehicleScreen());
-            }),
-            _buildTile(Icons.build, 'Book Service', () {
-              // Navigate to booking
-            }),
-            _buildTile(Icons.history, 'Service History', () {
-              // Navigate to history
-            }),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTile(IconData icon, String title, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.blue.shade100,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 40, color: Colors.blue.shade700),
-            SizedBox(height: 10),
-            Text(title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            BuildTile(
+                icon: Icons.directions_car,
+                title: 'My Vehicles',
+                onTap: () {
+                  Get.to(() => VehicleListScreen());
+                }),
+            BuildTile(
+                icon: Icons.build,
+                title: 'Book Service',
+                onTap: () {
+                  Get.to(() => BookServiceScreen());
+                }),
+            BuildTile(
+                icon: Icons.history,
+                title: 'Service History',
+                onTap: () {
+                  Get.to(() => ServiceHistoryScreen());
+                }),
           ],
         ),
       ),

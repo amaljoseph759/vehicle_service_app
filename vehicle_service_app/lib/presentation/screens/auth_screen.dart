@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vehicle_service_app/presentation/screens/home_screen.dart';
+import 'package:flutter/services.dart';
 
 class AuthScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -42,6 +43,14 @@ class AuthScreen extends StatelessWidget {
               controller: phoneController,
               decoration: const InputDecoration(labelText: 'Phone Number'),
               keyboardType: TextInputType.phone,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(10),
+              ],
+              onChanged: (value) {
+                if (phoneController.text.length == 10) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                }
+              },
             ),
             const SizedBox(height: 20),
             ElevatedButton(

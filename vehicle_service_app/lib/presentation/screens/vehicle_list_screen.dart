@@ -1,84 +1,62 @@
 // vehicle_list_screen.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vehicle_service_app/core/database/database_helper.dart';
+import 'package:vehicle_service_app/presentation/controllers/vehicle_controller.dart';
 import 'add_vehicle_screen.dart';
 
-class VehicleListScreen extends StatefulWidget {
-  @override
-  _VehicleListScreenState createState() => _VehicleListScreenState();
-}
-
-class _VehicleListScreenState extends State<VehicleListScreen> {
-  List<Map<String, dynamic>> vehicles = [];
-
-  Future<void> _loadVehicles() async {
-    final db = await DatabaseHelper().database;
-    final data = await db.query('vehicles');
-    setState(() => vehicles = data);
-  }
-
-  Future<void> _deleteVehicle(int id) async {
-    final db = await DatabaseHelper().database;
-    await db.delete('vehicles', where: 'id = ?', whereArgs: [id]);
-    await _loadVehicles();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Vehicle deleted')),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadVehicles();
-  }
+class VehicleListScreen extends StatelessWidget {
+  final VehicleController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('My Vehicles')),
-      body: vehicles.isEmpty
-          ? Center(child: Text('No vehicles found.'))
-          : ListView.builder(
-              itemCount: vehicles.length,
-              itemBuilder: (_, index) {
-                final v = vehicles[index];
-                return ListTile(
-                  leading: Icon(Icons.directions_car),
-                  title: Text('${v['brand']} ${v['model']}'),
-                  subtitle: Text('Plate: ${v['plate']} | Year: ${v['year']}'),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete, color: Colors.grey),
-                    onPressed: () => _confirmDelete(v['id']),
-                  ),
-                );
-              },
-            ),
+      appBar: AppBar(title: const Text('My Vehicles')),
+      body: Obx(() {
+        if (controller.vehicles.isEmpty) {
+          return const Center(child: Text('No vehicles found.'));
+        }
+        return ListView.builder(
+          itemCount: controller.vehicles.length,
+          itemBuilder: (_, index) {
+            final vehicle = controller.vehicles[index];
+            return ListTile(
+              leading: const Icon(Icons.directions_car),
+              title: Text('${vehicle['brand']} ${vehicle['model']}'),
+              subtitle:
+                  Text('Plate: ${vehicle['plate']} | Year: ${vehicle['year']}'),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red),
+                onPressed: () => _confirmDelete(context, vehicle['id']),
+              ),
+            );
+          },
+        );
+      }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            Get.to(() => AddVehicleScreen())!.then((_) => _loadVehicles()),
-        child: Icon(Icons.add),
+        onPressed: () => Get.to(() => AddVehicleScreen())!
+            .then((_) => controller.loadVehicles()),
+        child: const Icon(Icons.add),
       ),
     );
   }
 
-  void _confirmDelete(int id) {
+  void _confirmDelete(BuildContext context, int id) {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text('Delete Vehicle'),
-        content: Text('Are you sure you want to delete this vehicle?'),
+        title: const Text('Delete Vehicle'),
+        content: const Text('Are you sure you want to delete this vehicle?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              _deleteVehicle(id);
+              controller.deleteVehicle(id);
             },
-            child: Text('Delete ', style: TextStyle(color: Colors.red)),
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
