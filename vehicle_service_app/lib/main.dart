@@ -23,16 +23,13 @@ class MyApp extends StatelessWidget {
     final isFirstTime = box.read('isFirstTime') ?? true;
     final isRegistered = box.read('user_name') != null;
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Vehicle Service Booking',
-        home:
-            //isFirstTime
-            // ?
-            OnboardingScreen()
-        // :
-        //  isRegistered
-        //     ? HomeScreen()
-        //     : AuthScreen(),
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'Vehicle Service Booking',
+      home: isFirstTime
+          ? OnboardingScreen()
+          : isRegistered
+              ? HomeScreen()
+              : AuthScreen(),
+    );
   }
 }

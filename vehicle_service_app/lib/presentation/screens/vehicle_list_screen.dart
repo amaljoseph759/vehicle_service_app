@@ -5,7 +5,7 @@ import 'package:vehicle_service_app/presentation/controllers/vehicle_controller.
 import 'add_vehicle_screen.dart';
 
 class VehicleListScreen extends StatelessWidget {
-  final VehicleController controller = Get.find();
+  final VehicleController controller = Get.put(VehicleController());
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class VehicleListScreen extends StatelessWidget {
               subtitle:
                   Text('Plate: ${vehicle['plate']} | Year: ${vehicle['year']}'),
               trailing: IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
+                icon: const Icon(Icons.delete, color: Colors.grey),
                 onPressed: () => _confirmDelete(context, vehicle['id']),
               ),
             );

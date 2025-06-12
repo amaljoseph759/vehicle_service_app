@@ -4,13 +4,28 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+#  Vehicle Service Booking App
 
-A few resources to get you started if this is your first Flutter project:
+A Flutter app to manage vehicle service bookings with offline SQLite support.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+##  Features
+- Onboarding screen
+- User registration (local)
+- Add & list vehicles
+- Book services
+- View service history
+- Local storage using SQLite
+- GetX for state management
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##  Tech Stack
+- Flutter
+- GetX
+- SQLite (sqflite)
+- GetStorage
+
+## ▶️ Getting Started
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/amaljoseph759/vehicle_service_app.git
+cd your-repo
